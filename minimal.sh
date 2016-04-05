@@ -1,4 +1,5 @@
-# 
+#!/bin/bash
+
 mkdir rootfs
 mount /dev/sda1 rootfs
 cd rootfs
