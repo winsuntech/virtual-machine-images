@@ -20,18 +20,15 @@ echo "nameserver 208.67.222.222"   > etc/resolv.conf
 mount -t devtmpfs none dev
 mount -t proc none proc
 mount -t sysfs none sys
-chroot .
 
-apt-get update
-apt-get -y install linux-image-4.4.0-16-generic net-tools iproute2 nano
+chroot . apt-get update
+chroot . apt-get -y install linux-image-4.4.0-16-generic net-tools iproute2 nano
+chroot . bash -c 'echo "root:123456" | chpasswd'
+chroot . bash -c 'echo "/dev/sda1 / ext4 defaults 1 1" > etc/fstab'
+chroot . systemctl enable systemd-networkd
+chroot . systemctl enable systemd-resolved
 
-echo "root:123456" | chpasswd
-
-echo "/dev/sda1 / ext4 defaults 1 1" > etc/fstab
-
-systemctl enable systemd-networkd
-systemctl enable systemd-resolved
-
-exit
-umount sys proc dev
+umount sys 
+umount proc 
+umount dev
 
